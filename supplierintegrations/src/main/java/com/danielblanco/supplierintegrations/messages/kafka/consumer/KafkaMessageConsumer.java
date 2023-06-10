@@ -13,7 +13,6 @@ public class KafkaMessageConsumer {
             containerFactory = "kafkaListenerContainerFactory",
             groupId = "${topic.group.id}")
     public void consumer(String message) {
-        System.out.println("-----------");
         log.info("Consuming Message {}", message);
     }
 }
