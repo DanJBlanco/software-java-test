@@ -21,13 +21,7 @@ public class KafkaMessageProducer {
     @Value(value = "${topic.name}")
     private String topicName;
 
-    public void sendMessage(String messageInput) {
-        StringBuilder message = new StringBuilder();
-        message.append("IP80.238.9.179,");
-        message.append(new Date().getTime());
-        message.append(",SIGNIN_SUCCESS,");
-        message.append("Will.Smith");
-
-        producer.send(topicName, message.toString());
+    public void sendMessage(String message) {
+        producer.send(topicName, message);
     }
 }
