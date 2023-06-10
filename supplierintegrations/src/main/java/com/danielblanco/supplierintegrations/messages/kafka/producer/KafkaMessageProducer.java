@@ -1,15 +1,11 @@
 package com.danielblanco.supplierintegrations.messages.kafka.producer;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.Date;
-import java.util.UUID;
 
 @Slf4j
 @Component
