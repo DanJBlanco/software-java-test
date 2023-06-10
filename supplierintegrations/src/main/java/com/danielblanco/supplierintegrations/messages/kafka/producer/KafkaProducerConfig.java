@@ -1,4 +1,4 @@
-package com.danielblanco.supplierintegrations.messages.kafka;
+package com.danielblanco.supplierintegrations.messages.kafka.producer;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
