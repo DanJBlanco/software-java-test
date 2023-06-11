@@ -1,6 +1,6 @@
 package com.danielblanco.supplierintegrations.domain.services.impl;
 
-import com.danielblanco.supplierintegrations.domain.services.CSVReaderService;
+import com.danielblanco.supplierintegrations.domain.services.LogActivityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -9,18 +9,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class CSVReaderApplicationService {
 
-    private final CSVReaderService csvReaderService;
+    private final LogActivityRepository logActivityRepository;
 
     @Value("${log.file}")
     private String csvFilePath;
 
-    public CSVReaderApplicationService(CSVReaderService csvReaderService) {
-        this.csvReaderService = csvReaderService;
-    }
-
-    public void readCSVFile() {
-        log.info("[CSVReaderApplicationService] readCSVFile start...");
-        csvReaderService.readCSVFile(csvFilePath);
-        log.info("[CSVReaderApplicationService] readCSVFile finish");
+    public CSVReaderApplicationService(LogActivityRepository logActivityRepository) {
+        this.logActivityRepository = logActivityRepository;
     }
 }

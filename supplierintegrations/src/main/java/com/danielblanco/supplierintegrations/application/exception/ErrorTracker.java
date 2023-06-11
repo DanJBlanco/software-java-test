@@ -20,7 +20,6 @@ public class ErrorTracker {
     }
 
     public void setError(Exception e) {
-        log.info("___________ ERROR");
         errorList.add(e.getMessage());
     }
 

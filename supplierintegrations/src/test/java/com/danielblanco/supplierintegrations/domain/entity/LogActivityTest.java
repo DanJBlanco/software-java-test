@@ -1,6 +1,9 @@
 package com.danielblanco.supplierintegrations.domain.entity;
 
 import com.danielblanco.supplierintegrations.domain.valueobjects.LogAction;
+import com.danielblanco.supplierintegrations.domain.valueobjects.LogDate;
+import com.danielblanco.supplierintegrations.domain.valueobjects.LogIP;
+import com.danielblanco.supplierintegrations.domain.valueobjects.UserName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -15,51 +18,94 @@ class LogActivityTest {
 
     @Test
     public void createLogActivityOK() {
-        new LogActivityBuilder().setIP(IP).setDate(DATE).setAction(LogAction.SIGNIN_SUCCESS).setUserName(USERNAME).createLogActivity();
+        LogActivity.builder()
+                .IP(new LogIP(IP))
+                .date(new LogDate(DATE))
+                .action(LogAction.SIGNIN_SUCCESS)
+                .userName(new UserName(USERNAME))
+                .build();
     }
 
     @Test()
     public void createLogActivityIpNullTest(){
         Exception exception = assertThrows(Exception.class, () ->
-                new LogActivityBuilder().setIP("").setDate(DATE).setAction(LogAction.SIGNIN_SUCCESS).setUserName(USERNAME).createLogActivity()
+                LogActivity.builder()
+                .IP(new LogIP(""))
+                .date(new LogDate(DATE))
+                .action(LogAction.SIGNIN_SUCCESS)
+                .userName(new UserName(USERNAME))
+                .build()
         );
     }
     @Test()
     public void createLogActivityIpFormatErrorTest(){
         Exception exception = assertThrows(Exception.class, () ->
-                new LogActivityBuilder().setIP("123,,,1683,112,5").setDate(DATE).setAction(LogAction.SIGNIN_SUCCESS).setUserName(USERNAME).createLogActivity()
+                LogActivity.builder()
+                        .IP(new LogIP("123,,,1683,112,5"))
+                        .date(new LogDate(DATE))
+                        .action(LogAction.SIGNIN_SUCCESS)
+                        .userName(new UserName(USERNAME))
+                        .build()
         );
     }
 
     @Test()
     public void createLogActivityDateNullTest(){
         Exception exception = assertThrows(Exception.class, () ->
-                new LogActivityBuilder().setIP(IP).setDate(null).setAction(LogAction.SIGNIN_SUCCESS).setUserName(USERNAME).createLogActivity()
+                LogActivity.builder()
+                        .IP(new LogIP(IP))
+                        .date(new LogDate(null))
+                        .action(LogAction.SIGNIN_SUCCESS)
+                        .userName(new UserName(USERNAME))
+                        .build()
         );
     }
     @Test()
     public void createLogActivityDateFormatErrorTest(){
         Exception exception = assertThrows(Exception.class, () ->
-                new LogActivityBuilder().setIP(IP).setDate("12/23/68").setAction(LogAction.SIGNIN_SUCCESS).setUserName(USERNAME).createLogActivity()
+                LogActivity.builder()
+                        .IP(new LogIP(IP))
+                        .date(new LogDate("12/23/68"))
+                        .action(LogAction.SIGNIN_SUCCESS)
+                        .userName(new UserName(USERNAME))
+                        .build()
         );
     }
 
     @Test
     public void createLogUserNameNull() {
         Exception exception = assertThrows(Exception.class, () ->
-                new LogActivityBuilder().setIP(IP).setDate(DATE).setAction(LogAction.SIGNIN_SUCCESS).setUserName(null).createLogActivity()
+
+                        LogActivity.builder()
+                                .IP(new LogIP(IP))
+                                .date(new LogDate(DATE))
+                                .action(LogAction.SIGNIN_SUCCESS)
+                                .userName(new UserName(null))
+                                .build()
         );
     }
     @Test
     public void createLogUserNameEmpty() {
         Exception exception = assertThrows(Exception.class, () ->
-                new LogActivityBuilder().setIP(IP).setDate(DATE).setAction(LogAction.SIGNIN_SUCCESS).setUserName("").createLogActivity()
+
+                        LogActivity.builder()
+                                .IP(new LogIP(IP))
+                                .date(new LogDate(DATE))
+                                .action(LogAction.SIGNIN_SUCCESS)
+                                .userName(new UserName(""))
+                                .build()
         );
     }
     @Test
     public void createLogUserNameFormatError() {
         Exception exception = assertThrows(Exception.class, () ->
-                new LogActivityBuilder().setIP(IP).setDate(DATE).setAction(LogAction.SIGNIN_SUCCESS).setUserName("userName").createLogActivity()
+
+                        LogActivity.builder()
+                                .IP(new LogIP(IP))
+                                .date(new LogDate(DATE))
+                                .action(LogAction.SIGNIN_SUCCESS)
+                                .userName(new UserName("userName"))
+                                .build()
         );
     }
 }

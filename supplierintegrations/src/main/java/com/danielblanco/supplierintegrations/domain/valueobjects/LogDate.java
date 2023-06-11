@@ -3,6 +3,7 @@ package com.danielblanco.supplierintegrations.domain.valueobjects;
 import com.danielblanco.supplierintegrations.domain.utils.Validate;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -18,7 +19,9 @@ public class LogDate {
 
     private Timestamp validateDate(String value) {
         Validate.validateEmptyString(value, ExceptionMessage.DATE_FORMAT_ERROR.getValue());
-        return new Timestamp(Long.parseLong(value));
+        Instant instant = Instant.ofEpochSecond(Long.parseLong(value));
+        return Timestamp.from(instant);
+
     }
 
     public String getValueFormat() {

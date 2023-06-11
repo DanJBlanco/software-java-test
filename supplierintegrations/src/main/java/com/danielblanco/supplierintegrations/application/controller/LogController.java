@@ -4,13 +4,17 @@ import com.danielblanco.supplierintegrations.application.exception.ErrorTracker;
 import com.danielblanco.supplierintegrations.domain.services.CSVWriterService;
 import com.danielblanco.supplierintegrations.domain.services.impl.CSVReaderApplicationService;
 import com.danielblanco.supplierintegrations.domain.utils.Validate;
+import com.danielblanco.supplierintegrations.messages.kafka.MessageType;
+import com.danielblanco.supplierintegrations.messages.kafka.producer.KafkaMessageProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
@@ -23,10 +27,13 @@ public class LogController {
     private final CSVReaderApplicationService csvReaderApplicationService;
     private final ErrorTracker errorTracker;
 
-    public LogController(CSVWriterService csvWriterService, CSVReaderApplicationService csvReaderApplicationService, ErrorTracker errorTracker) {
+    private final KafkaMessageProducer kafkaMessageProducer;
+
+    public LogController(CSVWriterService csvWriterService, CSVReaderApplicationService csvReaderApplicationService, ErrorTracker errorTracker, KafkaMessageProducer kafkaMessageProducer) {
         this.csvWriterService = csvWriterService;
         this.csvReaderApplicationService = csvReaderApplicationService;
         this.errorTracker = errorTracker;
+        this.kafkaMessageProducer = kafkaMessageProducer;
     }
 
     @GetMapping("/create-log")
@@ -40,16 +47,12 @@ public class LogController {
         return ResponseEntity.ok("¡Create CSV! " + filePath);
     }
 
-    @GetMapping("/process")
-    public ResponseEntity<?> processLog(){
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody String requestLogin) {
 
-        csvReaderApplicationService.readCSVFile();
-        if( errorTracker.getErrorList().size() == 0) {
-            return ResponseEntity.ok("ok");
-        }
-        String body = String.join("\n", errorTracker.getErrorList());
-
-        return ResponseEntity.ok("Some errors: \n" + body);
+        kafkaMessageProducer.sendMessage(MessageType.LOGIN + ":" +requestLogin);
+        return ResponseEntity.ok("¡Message send! " + requestLogin);
     }
+
 
 }

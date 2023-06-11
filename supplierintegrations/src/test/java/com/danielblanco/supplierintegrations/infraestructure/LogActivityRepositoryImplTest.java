@@ -1,21 +1,26 @@
 package com.danielblanco.supplierintegrations.infraestructure;
 
+import com.danielblanco.supplierintegrations.domain.entity.LogActivity;
+import com.danielblanco.supplierintegrations.domain.mapper.LogActivityMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 
-class CSVReaderServiceImplTest {
+class LogActivityRepositoryImplTest {
 
-    private CSVReaderServiceImpl csvReaderService;
+    private LogActivityRepositoryImpl csvReaderService;
 
+    @Mock
+    LogActivityMapper logActivityMapper;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        csvReaderService = new CSVReaderServiceImpl(hackerDetector);
+        csvReaderService = new LogActivityRepositoryImpl(logActivityMapper);
 
     }
 
@@ -24,7 +29,7 @@ class CSVReaderServiceImplTest {
 
         String csvFilePath = new ClassPathResource("test.csv").getFile().getPath() ;
 
-        csvReaderService.readCSVFile(csvFilePath);
+        csvReaderService.readCSVFile(csvFilePath, new LogActivity());
 
     }
 }

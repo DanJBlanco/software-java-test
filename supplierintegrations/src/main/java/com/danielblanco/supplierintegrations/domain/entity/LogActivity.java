@@ -5,14 +5,17 @@ import com.danielblanco.supplierintegrations.domain.valueobjects.LogDate;
 import com.danielblanco.supplierintegrations.domain.valueobjects.LogIP;
 import com.danielblanco.supplierintegrations.domain.valueobjects.LogId;
 import com.danielblanco.supplierintegrations.domain.valueobjects.UserName;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
 @Data
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LogActivity {
 
     private LogId id;
