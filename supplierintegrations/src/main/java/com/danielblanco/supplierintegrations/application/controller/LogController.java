@@ -1,20 +1,31 @@
-package com.danielblanco.supplierintegrations.application.rest;
+package com.danielblanco.supplierintegrations.application.controller;
 
+import com.danielblanco.supplierintegrations.domain.services.CSVReaderService;
 import com.danielblanco.supplierintegrations.domain.services.CSVWriterService;
+import com.danielblanco.supplierintegrations.domain.services.impl.CSVReaderApplicationService;
 import com.danielblanco.supplierintegrations.domain.utils.Validate;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.csv.CSVRecord;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @Slf4j
 @RestController
 public class LogController {
 
-    private final CSVWriterService csvWriterService;
+    @Value("${log.file}")
+    private String csvFilePath;
 
-    public LogController(CSVWriterService csvWriterService) {
+    private final CSVWriterService csvWriterService;
+    private final CSVReaderApplicationService csvReaderApplicationService;
+
+    public LogController(CSVWriterService csvWriterService, CSVReaderApplicationService csvReaderApplicationService) {
         this.csvWriterService = csvWriterService;
+        this.csvReaderApplicationService = csvReaderApplicationService;
     }
 
     @GetMapping("/create-log")
@@ -26,6 +37,13 @@ public class LogController {
 
         String filePath = csvWriterService.generateActivityLogFile(totalLines);
         return ResponseEntity.ok("¡Create CSV! " + filePath);
+    }
+
+    @GetMapping("/process")
+    public ResponseEntity<?> processLog(){
+
+        csvReaderApplicationService.readCSVFile();
+        return ResponseEntity.ok("ok");
     }
 
 }

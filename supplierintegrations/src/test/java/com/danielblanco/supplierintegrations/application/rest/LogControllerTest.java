@@ -1,5 +1,6 @@
 package com.danielblanco.supplierintegrations.application.rest;
 
+import com.danielblanco.supplierintegrations.application.controller.LogController;
 import com.danielblanco.supplierintegrations.domain.services.CSVWriterService;
 import org.junit.Before;
 import org.junit.Test;
