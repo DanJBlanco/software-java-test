@@ -15,51 +15,51 @@ class LogActivityTest {
 
     @Test
     public void createLogActivityOK() {
-        new LogActivity( IP, DATE, LogAction.SIGNIN_SUCCESS, USERNAME);
+        new LogActivityBuilder().setIP(IP).setDate(DATE).setAction(LogAction.SIGNIN_SUCCESS).setUserName(USERNAME).createLogActivity();
     }
 
     @Test()
     public void createLogActivityIpNullTest(){
         Exception exception = assertThrows(Exception.class, () ->
-                new LogActivity("", DATE, LogAction.SIGNIN_SUCCESS, USERNAME)
+                new LogActivityBuilder().setIP("").setDate(DATE).setAction(LogAction.SIGNIN_SUCCESS).setUserName(USERNAME).createLogActivity()
         );
     }
     @Test()
     public void createLogActivityIpFormatErrorTest(){
         Exception exception = assertThrows(Exception.class, () ->
-                new LogActivity("123,,,1683,112,5", DATE, LogAction.SIGNIN_SUCCESS, USERNAME)
+                new LogActivityBuilder().setIP("123,,,1683,112,5").setDate(DATE).setAction(LogAction.SIGNIN_SUCCESS).setUserName(USERNAME).createLogActivity()
         );
     }
 
     @Test()
     public void createLogActivityDateNullTest(){
         Exception exception = assertThrows(Exception.class, () ->
-                new LogActivity(IP, null, LogAction.SIGNIN_SUCCESS, USERNAME)
+                new LogActivityBuilder().setIP(IP).setDate(null).setAction(LogAction.SIGNIN_SUCCESS).setUserName(USERNAME).createLogActivity()
         );
     }
     @Test()
     public void createLogActivityDateFormatErrorTest(){
         Exception exception = assertThrows(Exception.class, () ->
-                new LogActivity(IP, "12/23/68", LogAction.SIGNIN_SUCCESS, USERNAME)
+                new LogActivityBuilder().setIP(IP).setDate("12/23/68").setAction(LogAction.SIGNIN_SUCCESS).setUserName(USERNAME).createLogActivity()
         );
     }
 
     @Test
     public void createLogUserNameNull() {
         Exception exception = assertThrows(Exception.class, () ->
-                new LogActivity(IP, DATE, LogAction.SIGNIN_SUCCESS, null)
+                new LogActivityBuilder().setIP(IP).setDate(DATE).setAction(LogAction.SIGNIN_SUCCESS).setUserName(null).createLogActivity()
         );
     }
     @Test
     public void createLogUserNameEmpty() {
         Exception exception = assertThrows(Exception.class, () ->
-                new LogActivity(IP, DATE, LogAction.SIGNIN_SUCCESS, "")
+                new LogActivityBuilder().setIP(IP).setDate(DATE).setAction(LogAction.SIGNIN_SUCCESS).setUserName("").createLogActivity()
         );
     }
     @Test
     public void createLogUserNameFormatError() {
         Exception exception = assertThrows(Exception.class, () ->
-                new LogActivity(IP, DATE, LogAction.SIGNIN_SUCCESS, "userName")
+                new LogActivityBuilder().setIP(IP).setDate(DATE).setAction(LogAction.SIGNIN_SUCCESS).setUserName("userName").createLogActivity()
         );
     }
 }

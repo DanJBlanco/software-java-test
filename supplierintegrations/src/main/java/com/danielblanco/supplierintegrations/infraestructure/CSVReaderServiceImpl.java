@@ -1,6 +1,7 @@
 package com.danielblanco.supplierintegrations.infraestructure;
 
 import com.danielblanco.supplierintegrations.domain.services.CSVReaderService;
+import com.danielblanco.supplierintegrations.domain.services.HackerDetector;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -18,8 +19,16 @@ public class CSVReaderServiceImpl implements CSVReaderService {
 
     private static final int BATCH_SIZE = 1000;
 
+    private final HackerDetector hackerDetector;
+
+    public CSVReaderServiceImpl(HackerDetector hackerDetector) {
+        this.hackerDetector = hackerDetector;
+    }
+
     @Override
     public void readCSVFile(String csvFilePath) {
+        log.info("[CSVReaderServiceImpl] readCSVFile start...");
+        log.debug("[CSVReaderServiceImpl] readCSVFile csvFilePath: {}", csvFilePath);
 
         CSVFormat format = CSVFormat.DEFAULT.builder().setHeader().build();
 
@@ -40,17 +49,24 @@ public class CSVReaderServiceImpl implements CSVReaderService {
             }
 
         } catch (IOException e) {
+            log.error("[CSVReaderServiceImpl] readCSVFile error: {}", e.getMessage());
             e.printStackTrace();
         }
+        log.info("[CSVReaderServiceImpl] readCSVFile finish...");
     }
 
     private void processCSVRecord(CSVRecord record) {
-        String ip = record.get("IP");
-        long timestamp = Long.parseLong(record.get("TIMESTAMP"));
-        String signinSuccess = record.get("ACTIVITY");
-        String username = record.get("USERNAME");
+        log.info("[CSVReaderServiceImpl] processCSVRecord start...");
+        log.debug("[CSVReaderServiceImpl] processCSVRecord record: {}", record);
 
-        log.info("ip: {}, time: {}, activity: {}, username: {}", ip, timestamp, signinSuccess, username);
+        StringBuilder sb = new StringBuilder();
+        sb.append(record.get("IP")).append(",");
+        sb.append(record.get("TIMESTAMP")).append(",");
+        sb.append(record.get("ACTIVITY")).append(",");
+        sb.append(record.get("USERNAME"));
+
+        this.hackerDetector.parseLine(sb.toString());
+        log.info("[CSVReaderServiceImpl] processCSVRecord finish...");
 
     }
 

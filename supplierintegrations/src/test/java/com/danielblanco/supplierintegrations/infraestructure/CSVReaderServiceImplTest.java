@@ -15,7 +15,7 @@ class CSVReaderServiceImplTest {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        csvReaderService = new CSVReaderServiceImpl();
+        csvReaderService = new CSVReaderServiceImpl(hackerDetector);
 
     }
 

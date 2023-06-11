@@ -7,7 +7,7 @@ public enum ExceptionMessage {
     DATE_FORMAT_ERROR("Error: Date should have timestamp format"),
     ACTION_ERROR("Error: ACTION_ERROR"),
     USERNAME_ERROR("Error: Username has null value"),
-    USERNAME_FORMAT_ERROR("Error: Username format should have a \".\"");
+    USERNAME_FORMAT_ERROR("Error: Username format should have a '.'");
     private final String value;
 
     ExceptionMessage(String value) {
